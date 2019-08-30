@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<!-- top level dogbot in Gazebo, walking -->
+
+<launch>
+
+<!--
+  <node name="dogbot_simplegait_node" pkg="dogbot_simplegait" type="dogbot_simplegait_node" launch-prefix="xterm -hold -e" output="screen">
+    <param name="loop_hz" value="50" />
+    <param name="omega" value="1.0" />
+    <param name="robot_config_file" value="$(find dogbot_simplegait)/config/hachiko.json" />
+  </node>
+-->
+<node name="dogbot_simplegait_node" pkg="dogbot_simplegait" type="dogbot_simplegait_node" output="screen">
+    <param name="loop_hz" value="50" />
+    <param name="omega" value="6.0" />
+    <param name="robot_config_file" value="$(find dogbot_simplegait)/config/hachiko.json" />
+  </node>
+</launch>

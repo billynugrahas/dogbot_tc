@@ -1,0 +1,14 @@
+#currently this is copied across from build by a script
+pydogbotapi.py
+
+# Compiled python modules.
+*.pyc
+
+# Setuptools distribution folder.
+/dist/
+
+# Python egg metadata, regenerated from source files by setuptools.
+/*.egg-info
+ 
+# Compiled shared libraries
+*.so
