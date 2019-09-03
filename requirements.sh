@@ -2,16 +2,16 @@
 
 sudo apt-get update
 
-sudo apt-get install libspdlog-dev
-sudo apt-get install jsoncpp-dev
-sudo apt-get install libeigen3-dev
-#sudo apt-get -y install libzmq-dev
-sudo apt-get install libzmq3-dev
-sudo apt-get install libusb-1.0.0-dev
-sudo apt-get install mesa-common-dev
-sudo apt-get install build-essential
-sudo apt-get install libgl1-mesa-dev
-sudo apt-get -y install libpqxx-dev
+sudo apt-get install libspdlog-dev -y
+sudo apt-get install jsoncpp-dev -y
+sudo apt-get install libeigen3-dev -y
+sudo apt-get install libzmq-dev -y
+sudo apt-get install libzmq3-dev -y
+sudo apt-get install libusb-1.0.0-dev -y
+sudo apt-get install mesa-common-dev -y
+sudo apt-get install build-essential -y
+sudo apt-get install libgl1-mesa-dev -y
+sudo apt-get install libpqxx-dev -y
 
 sudo apt-get install ros-kinetic-rosparam-shortcuts -y
 sudo apt-get install ros-kinetic-ros-control -y
