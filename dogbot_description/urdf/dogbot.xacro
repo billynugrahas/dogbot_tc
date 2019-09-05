@@ -346,6 +346,19 @@
       <mu2 value="1000.0"/>
       <kp value="${kp}" />
       <kd value="${kd}" />
+
+      <!-- Contact Sensor -->
+      <sensor name="${prefix}_${suffix}_contactsensor_sensor" type="contact">
+        <always_on>true</always_on>
+        <contact>
+          <collision>${prefix}_${suffix}_lowerleg_fixed_joint_lump__${prefix}_${suffix}_foot_collision_5</collision>
+        </contact>
+        <plugin name="${prefix}_${suffix}_foot_plugin" filename="libgazebo_ros_bumper.so">
+          <bumperTopicName>${prefix}_${suffix}_contactsensor_state</bumperTopicName>
+          <frameName>${prefix}_${suffix}_foot</frameName>
+        </plugin>
+      </sensor>
+
     </gazebo>
 
     <transmission name="${prefix}_${suffix}_roll_transmition" >
@@ -380,6 +393,8 @@
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
+
+
 
   </xacro:macro>
 
@@ -417,6 +432,7 @@
       <robotNamespace>/dogbot</robotNamespace>
     </plugin>
   </gazebo>
+
 
 
 </robot>
