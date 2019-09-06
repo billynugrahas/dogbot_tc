@@ -3,7 +3,7 @@
 sudo apt-get update
 
 sudo apt-get install libspdlog-dev -y
-sudo apt-get install jsoncpp-dev -y
+sudo apt-get install libjsoncpp-dev -y
 sudo apt-get install libeigen3-dev -y
 #sudo apt-get install libzmq-dev -y
 sudo apt-get install libzmq3-dev -y
