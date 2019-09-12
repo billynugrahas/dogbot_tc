@@ -10,8 +10,9 @@ from gazebo_msgs.msg import ContactsState
 import math
 
 class MarkerBasics(object):
-    def __init__(self):
-        self.marker_objectlisher = rospy.Publisher('/marker_basic', Marker, queue_size=1)
+    def __init__(self, topic_id):
+        marker_topic = '/marker_basic_'+topic_id
+        self.marker_objectlisher = rospy.Publisher(marker_topic, Marker, queue_size=1)
         self.rate = rospy.Rate(25)
         self.init_marker(index=0)
 
@@ -59,6 +60,7 @@ class MarkerBasics(object):
         my_point.y = y
         my_point.z = z
         self.marker_object.pose.position = my_point
+        #rospy.loginfo("PositionMarker-X="+str(self.marker_object.pose.position.x))
 
     def change_colour(self, R, G, B):
         """
@@ -185,7 +187,7 @@ class MarkerBasics(object):
         :param orientation: [Pitch,Yaw]
         :return:
         """
-        self.change_frame(frame=frame, ns=ns, index=index)
+        #self.change_frame(frame=frame, ns=ns, index=index)
         self.change_position(x=position[0], y=position[1], z=position[2])
         self.change_orientation(pitch=orientation[0], yaw=orientation[1])
         self.change_scale(s_x = pressure)
@@ -209,52 +211,19 @@ class FootPressureInfo(object):
 
         self.min_pressure = 0.0
         self.max_pressure = 100.0
-        self.markerbasics_object = MarkerBasics()
+        self.markerbasics_object_front_left_foot = MarkerBasics(topic_id="front_left_foot")
+        self.markerbasics_object_front_right_foot = MarkerBasics(topic_id="front_right_foot")
+        self.markerbasics_object_back_left_foot = MarkerBasics(topic_id="back_left_foot")
+        self.markerbasics_object_back_right_foot = MarkerBasics(topic_id="back_right_foot")
 
-        rospy.Subscriber("/dogbot/back_left_contactsensor_state", ContactsState, self.contact_callback)
-        rospy.Subscriber("/dogbot/back_right_contactsensor_state", ContactsState, self.contact_callback)
-        rospy.Subscriber("/dogbot/front_left_contactsensor_state", ContactsState, self.contact_callback)
-        rospy.Subscriber("/dogbot/front_right_contactsensor_state", ContactsState, self.contact_callback)
+        rospy.Subscriber("/dogbot/back_left_contactsensor_state", ContactsState, self.contact_callback_back_left_foot)
+        rospy.Subscriber("/dogbot/back_right_contactsensor_state", ContactsState, self.contact_callback_back_right_foot)
+        rospy.Subscriber("/dogbot/front_left_contactsensor_state", ContactsState, self.contact_callback_front_left_foot)
+        rospy.Subscriber("/dogbot/front_right_contactsensor_state", ContactsState, self.contact_callback_front_right_foot)
 
 
-    def contact_callback(self, data):
+    def contact_callback_front_right_foot(self, data):
         """
-        gazebo_msgs/ContactsState
-std_msgs/Header header
-  uint32 seq
-  time stamp
-  string frame_id
-gazebo_msgs/ContactState[] states
-  string info
-  string collision1_name
-  string collision2_name
-  geometry_msgs/Wrench[] wrenches
-    geometry_msgs/Vector3 force
-      float64 x
-      float64 y
-      float64 z
-    geometry_msgs/Vector3 torque
-      float64 x
-      float64 y
-      float64 z
-  geometry_msgs/Wrench total_wrench
-    geometry_msgs/Vector3 force
-      float64 x
-      float64 y
-      float64 z
-    geometry_msgs/Vector3 torque
-      float64 x
-      float64 y
-      float64 z
-  geometry_msgs/Vector3[] contact_positions
-    float64 x
-    float64 y
-    float64 z
-  geometry_msgs/Vector3[] contact_normals
-    float64 x
-    float64 y
-    float64 z
-  float64[] depths
 
         :param data:
         :return:
@@ -271,37 +240,135 @@ gazebo_msgs/ContactState[] states
             Py = data.states[0].contact_positions[0].y
             Pz = data.states[0].contact_positions[0].z
 
+            pressure = pressure / 100.0
+            # rospy.loginfo(str(foot_name) + "--->pressure =" + str(pressure))
+            # rospy.loginfo(str(foot_name) + "Point =[" + str(pressure))
 
-        else:
-            pressure = 0.0
-            Px = 0.0
-            Py = 0.0
-            Pz = 0.0
-
-        pressure = pressure / 100.0
-        rospy.loginfo(str(foot_name) + "--->pressure =" + str(pressure))
-
-        if foot_name == "front_left_foot":
-            index = 0
-        elif foot_name == "front_right_foot":
             index = 1
-        elif foot_name == "back_right_foot":
-            index = 2
-        elif foot_name == "back_left_foot":
-            index = 3
+
+            self.markerbasics_object_front_right_foot.update_marker(frame=foot_name,
+                                                   ns="dogbot",
+                                                   index=index,
+                                                   position=[Px, Py, Pz],
+                                                   orientation=[-1.57, 0.0],
+                                                   pressure=pressure,
+                                                   min_pressure=self.min_pressure,
+                                                   max_pressure=self.max_pressure)
+
+
         else:
-            index = 10
+            # No Contact
+            pass
 
 
+    def contact_callback_front_left_foot(self, data):
+        """
 
-        self.markerbasics_object.update_marker(frame=foot_name,
-                                               ns="dogbot",
-                                               index=index,
-                                                position=[Px, Py, Pz],
-                                               orientation=[-1.57, 0.0],
-                                               pressure=pressure,
-                                               min_pressure=self.min_pressure,
-                                               max_pressure=self.max_pressure)
+        :param data:
+        :return:
+        """
+        foot_name = data.header.frame_id
+
+        if len(data.states) >= 1:
+            Fx = data.states[0].total_wrench.force.x
+            Fy = data.states[0].total_wrench.force.y
+            Fz = data.states[0].total_wrench.force.z
+            pressure = math.sqrt(pow(Fx,2)+pow(Fy,2)+pow(Fz,2))
+
+            Px = data.states[0].contact_positions[0].x
+            Py = data.states[0].contact_positions[0].y
+            Pz = data.states[0].contact_positions[0].z
+
+            pressure = pressure / 100.0
+
+            index = 0
+
+            self.markerbasics_object_front_left_foot.update_marker(frame=foot_name,
+                                                   ns="dogbot",
+                                                   index=index,
+                                                   position=[Px, Py, Pz],
+                                                   orientation=[-1.57, 0.0],
+                                                   pressure=pressure,
+                                                   min_pressure=self.min_pressure,
+                                                   max_pressure=self.max_pressure)
+        else:
+            # No Contact
+            pass
+
+    def contact_callback_back_right_foot(self, data):
+        """
+
+        :param data:
+        :return:
+        """
+        foot_name = data.header.frame_id
+
+        if len(data.states) >= 1:
+            Fx = data.states[0].total_wrench.force.x
+            Fy = data.states[0].total_wrench.force.y
+            Fz = data.states[0].total_wrench.force.z
+            pressure = math.sqrt(pow(Fx,2)+pow(Fy,2)+pow(Fz,2))
+
+            Px = data.states[0].contact_positions[0].x
+            Py = data.states[0].contact_positions[0].y
+            Pz = data.states[0].contact_positions[0].z
+
+            pressure = pressure / 100.0
+            # rospy.loginfo(str(foot_name) + "--->pressure =" + str(pressure))
+            # rospy.loginfo(str(foot_name) + "Point =[" + str(pressure))
+
+            index = 2
+
+            self.markerbasics_object_back_right_foot.update_marker(frame=foot_name,
+                                                   ns="dogbot",
+                                                   index=index,
+                                                   position=[Px, Py, Pz],
+                                                   orientation=[-1.57, 0.0],
+                                                   pressure=pressure,
+                                                   min_pressure=self.min_pressure,
+                                                   max_pressure=self.max_pressure)
+
+
+        else:
+            # No Contact
+            pass
+
+
+    def contact_callback_back_left_foot(self, data):
+        """
+
+        :param data:
+        :return:
+        """
+        foot_name = data.header.frame_id
+
+        if len(data.states) >= 1:
+            Fx = data.states[0].total_wrench.force.x
+            Fy = data.states[0].total_wrench.force.y
+            Fz = data.states[0].total_wrench.force.z
+            pressure = math.sqrt(pow(Fx,2)+pow(Fy,2)+pow(Fz,2))
+
+            Px = data.states[0].contact_positions[0].x
+            Py = data.states[0].contact_positions[0].y
+            Pz = data.states[0].contact_positions[0].z
+
+            pressure = pressure / 100.0
+
+            index = 3
+
+            self.markerbasics_object_back_left_foot.update_marker(frame=foot_name,
+                                                   ns="dogbot",
+                                                   index=index,
+                                                   position=[Px, Py, Pz],
+                                                   orientation=[-1.57, 0.0],
+                                                   pressure=pressure,
+                                                   min_pressure=self.min_pressure,
+                                                   max_pressure=self.max_pressure)
+        else:
+            # No Contact
+            pass
+
+
 
 
 if __name__ == '__main__':

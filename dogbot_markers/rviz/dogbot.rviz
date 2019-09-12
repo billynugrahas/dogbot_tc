@@ -3,9 +3,7 @@ Panels:
     Help Height: 78
     Name: Displays
     Property Tree Widget:
-      Expanded:
-        - /Global Options1
-        - /RobotModel2
+      Expanded: ~
       Splitter Ratio: 0.5
     Tree Height: 463
   - Class: rviz/Selection
@@ -49,30 +47,6 @@ Visualization Manager:
       Plane: XY
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
-      Value: true
-    - Alpha: 1
-      Class: rviz/RobotModel
-      Collision Enabled: false
-      Enabled: true
-      Links:
-        All Links Enabled: true
-        Expand Joint Details: false
-        Expand Link Details: false
-        Expand Tree: false
-        Link Tree Style: Links in Alphabetic Order
-      Name: RobotModel
-      Robot Description: robot_description
-      TF Prefix: ""
-      Update Interval: 0
-      Value: true
-      Visual Enabled: true
-    - Class: rviz/Marker
-      Enabled: true
-      Marker Topic: /marker_basic
-      Name: Marker
-      Namespaces:
-        dogbot: true
-      Queue Size: 100
       Value: true
     - Alpha: 1
       Class: rviz/RobotModel
@@ -184,11 +158,50 @@ Visualization Manager:
       Update Interval: 0
       Value: true
       Visual Enabled: true
+    - Class: rviz/Axes
+      Enabled: true
+      Length: 1
+      Name: Axes
+      Radius: 0.100000001
+      Reference Frame: world
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /marker_basic_front_right_foot
+      Name: FrontRightFoot
+      Namespaces:
+        dogbot: true
+      Queue Size: 1
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /marker_basic_front_left_foot
+      Name: FrontLeftFoot
+      Namespaces:
+        dogbot: true
+      Queue Size: 1
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /marker_basic_back_left_foot
+      Name: BackLeftFoot
+      Namespaces:
+        dogbot: true
+      Queue Size: 1
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /marker_basic_back_right_foot
+      Name: BackRightFoot
+      Namespaces:
+        dogbot: true
+      Queue Size: 1
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: body
+    Fixed Frame: world
     Frame Rate: 30
   Name: root
   Tools:
@@ -208,26 +221,26 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Class: rviz/ThirdPersonFollower
-      Distance: 14.5685081
+      Class: rviz/Orbit
+      Distance: 3.18331981
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 7.51930332
-        Y: -1.83124733
-        Z: 3.68522706e-07
+        X: -0.535158694
+        Y: -4.14610672
+        Z: 0.314032555
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: -0.159798056
+      Pitch: 0.645201564
       Target Frame: <Fixed Frame>
-      Value: ThirdPersonFollower (rviz)
-      Yaw: 2.90543294
+      Value: Orbit (rviz)
+      Yaw: 5.35858583
     Saved: ~
 Window Geometry:
   Displays:

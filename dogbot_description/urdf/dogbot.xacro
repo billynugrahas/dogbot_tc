@@ -355,7 +355,8 @@
         </contact>
         <plugin name="${prefix}_${suffix}_foot_plugin" filename="libgazebo_ros_bumper.so">
           <bumperTopicName>${prefix}_${suffix}_contactsensor_state</bumperTopicName>
-          <frameName>${prefix}_${suffix}_foot</frameName>
+          <!--<frameName>${prefix}_${suffix}_foot</frameName>-->
+          <frameName>world</frameName>
         </plugin>
       </sensor>
 
@@ -432,6 +433,19 @@
       <robotNamespace>/dogbot</robotNamespace>
     </plugin>
   </gazebo>
+
+  <gazebo>
+        <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
+            <alwaysOn>true</alwaysOn>
+            <!--<updateRate>50.0</updateRate>-->
+            <bodyName>base_link</bodyName>
+            <topicName>odom</topicName>
+            <gaussianNoise>0.01</gaussianNoise>
+            <frameName>world</frameName>
+            <xyzOffsets>0 0 0</xyzOffsets>
+            <rpyOffsets>0 0 0</rpyOffsets>
+        </plugin>
+    </gazebo>
 
 
 
