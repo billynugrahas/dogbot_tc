@@ -210,7 +210,7 @@ class FootPressureInfo(object):
     def __init__(self):
 
         self.min_pressure = 0.0
-        self.max_pressure = 100.0
+        self.max_pressure = 2.0
         self.markerbasics_object_front_left_foot = MarkerBasics(topic_id="front_left_foot")
         self.markerbasics_object_front_right_foot = MarkerBasics(topic_id="front_right_foot")
         self.markerbasics_object_back_left_foot = MarkerBasics(topic_id="back_left_foot")
@@ -281,6 +281,7 @@ class FootPressureInfo(object):
 
             pressure = pressure / 100.0
 
+
             index = 0
 
             self.markerbasics_object_front_left_foot.update_marker(frame=foot_name,
@@ -314,7 +315,7 @@ class FootPressureInfo(object):
             Pz = data.states[0].contact_positions[0].z
 
             pressure = pressure / 100.0
-            # rospy.loginfo(str(foot_name) + "--->pressure =" + str(pressure))
+            #rospy.loginfo(str(foot_name) + "--->pressure =" + str(pressure))
             # rospy.loginfo(str(foot_name) + "Point =[" + str(pressure))
 
             index = 2
