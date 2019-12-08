@@ -3,8 +3,6 @@
 
     <include file="$(find dogbot_gazebo)/launch/start_world.launch">
         <arg name="put_robot_in_world" value="true" />
-        <arg name="put_robot_in_world_package" value="dogbot_gazebo" />
-        <arg name="put_robot_in_world_launch" value="put_robot_in_world.launch" />
         <arg name="x" value="0.0" />
         <arg name="y" value="0.0" />
         <arg name="z" value="0.2" />

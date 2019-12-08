@@ -6,8 +6,6 @@
     <arg name="headless" default="false"/>
     <arg name="pause" default="false"/>
     <arg name="put_robot_in_world" default="false" />
-    <arg name="put_robot_in_world_package" default="" />
-    <arg name="put_robot_in_world_launch" default="" />
 
     <arg name="x" default="0.0" />
     <arg name="y" default="0.0" />
@@ -26,7 +24,7 @@
     </include>
 
     <group if="$(arg put_robot_in_world)">
-        <include file="$(eval find(put_robot_in_world_package) + '/launch/' + put_robot_in_world_launch)">
+        <include file="$(find dogbot_gazebo)/launch/put_robot_in_world.launch">
             <arg name="x" value="$(arg x)" />
             <arg name="y" value="$(arg y)" />
             <arg name="z" value="$(arg z)" />
