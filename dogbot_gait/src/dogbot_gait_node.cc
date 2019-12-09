@@ -90,8 +90,8 @@ int main(int argc, char **argv)
   jointControllers.reserve(jointNames.size());
 
   for(auto &jn : jointNames) {
-    std::string newName = ReplaceString(jn,"_joint","_position_controller");
-    std::string newPath = std::string("/dogbot/") + newName + std::string("/command");
+    const std::string newName = ReplaceString(jn,"_joint","_position_controller");
+    const std::string newPath = std::string("/dogbot/") + newName + std::string("/command");
     jointControllers.push_back(n.advertise<std_msgs::Float64>(newPath,2));
   }
 
