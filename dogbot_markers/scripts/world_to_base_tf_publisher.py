@@ -41,7 +41,7 @@ class WorldBaseTFPublisher(object):
     def get_current_pose(self):
         return self._current_pose
 
-    def handle_turtle_pose(self, pose_msg, link_name, world_name = "/world"):
+    def handle_dogbot_pose(self, pose_msg, link_name, world_name = "/world"):
 
         self._br.sendTransform(
                                 (pose_msg.position.x,
@@ -67,7 +67,7 @@ class WorldBaseTFPublisher(object):
             if not pose_now:
                 print "The Pose is not yet available...Please try again later"
             else:
-                self.handle_turtle_pose(pose_now, frame_link_name)
+                self.handle_dogbot_pose(pose_now, frame_link_name)
             try:
                 rate.sleep()
             except rospy.ROSInterruptException:
@@ -77,6 +77,6 @@ class WorldBaseTFPublisher(object):
 
 if __name__ == '__main__':
     rospy.init_node('publisher_of_world_base_tf_node', anonymous=True)
-    rospy.loginfo("STARTING WORLS TO BASE TF PUBLISHER...")
+    rospy.loginfo("STARTING WORLD TO BASE TF PUBLISHER...")
     world_base_tf_pub = WorldBaseTFPublisher()
     world_base_tf_pub.publisher_of_tf()
