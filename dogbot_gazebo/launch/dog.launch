@@ -18,14 +18,14 @@
     <arg name="model" default="$(find dogbot_description)/urdf/dogbot.xacro"/>
     <arg name="paused" default="false"/>
 
+    <arg name="unpause"     if="$(arg paused)" value="-unpause"/>
+    <arg name="unpause" unless="$(arg paused)" value=""/>
+
   <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
 
   <!-- push robot_description to factory and spawn robot in gazebo -->
-  <node if="$(arg paused)" name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
-        args=" -x $(arg x) -y $(arg y) -z $(arg z) -R $(arg roll) -P $(arg pitch) -Y $(arg yaw) -urdf -model dogbot -param robot_description" respawn="false" output="screen" />
-
-  <node unless="$(arg paused)" name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
-        args=" -x $(arg x) -y $(arg y) -z $(arg z) -R $(arg roll) -P $(arg pitch) -Y $(arg yaw) -unpause -urdf -model dogbot -param robot_description" respawn="false" output="screen" />
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args=" -x $(arg x) -y $(arg y) -z $(arg z) -R $(arg roll) -P $(arg pitch) -Y $(arg yaw) $(arg unpause) -urdf -model dogbot -param robot_description" />
 
   <!-- ros/Gazebo controllers -->
   <include file="$(find dogbot_control)/launch/controllers.launch" />

@@ -13,9 +13,20 @@
   <!-- <rosparam file="$(find dogbot_control)/config/dogbot_controllers.yaml" command="load"/> -->
   
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-    output="screen" 
-    args="joint_state_controller front_left_knee_position_controller front_right_knee_position_controller back_left_knee_position_controller back_right_knee_position_controller front_left_pitch_position_controller front_right_pitch_position_controller back_left_pitch_position_controller back_right_pitch_position_controller front_left_roll_position_controller front_right_roll_position_controller back_left_roll_position_controller back_right_roll_position_controller"
-    />
+    output="screen" args="
+      joint_state_controller
+      front_left_knee_position_controller
+      front_right_knee_position_controller
+      back_left_knee_position_controller
+      back_right_knee_position_controller
+      front_left_pitch_position_controller
+      front_right_pitch_position_controller
+      back_left_pitch_position_controller
+      back_right_pitch_position_controller
+      front_left_roll_position_controller
+      front_right_roll_position_controller
+      back_left_roll_position_controller
+      back_right_roll_position_controller"/>
 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen" />
   

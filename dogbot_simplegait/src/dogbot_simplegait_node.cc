@@ -40,13 +40,6 @@ int main(int argc, char **argv) {
   std::shared_ptr<DogBotN::DogBotKinematicsC> dogBotKinematics =
       std::make_shared<DogBotN::DogBotKinematicsC>();
 
-  /*
-  if (!dogBotKinematics->LoadConfig(
-            DogBotN::DogBotAPIC::DefaultConfigFile(""))) {
-      std::cerr << "Failed to load robot config. " << std::endl;
-    }
-
-   */
   if (!dogBotKinematics->LoadConfig(robot_config_file)) {
     std::cerr << "Failed to load robot config. " << std::endl;
   }
